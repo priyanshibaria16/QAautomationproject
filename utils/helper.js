@@ -34,4 +34,24 @@ async function captureScreenshot(driver, testName) {
   }
 }
 
-module.exports = { captureScreenshot };
+const { Key } = require('selenium-webdriver');
+
+/**
+ * Focuses an input element, selects all text, deletes it, and enters new text.
+ * This simulates real user typing and triggers React synthetic change events.
+ * 
+ * @param {WebElement} element The Selenium WebElement to clear and type in
+ * @param {string} text The text value to input
+ */
+async function clearAndType(element, text) {
+  await element.click();
+  // Select all text using Control+A and backspace it
+  await element.sendKeys(Key.CONTROL, 'a');
+  await element.sendKeys(Key.BACKSPACE);
+  if (text !== '') {
+    await element.sendKeys(text);
+  }
+}
+
+module.exports = { captureScreenshot, clearAndType };
+

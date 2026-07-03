@@ -9,19 +9,11 @@ describe('Products Page Tests', function () {
   let loginPage;
   let productsPage;
 
-  before(async function () {
+  beforeEach(async function () {
     driver = await createDriver();
     loginPage = new LoginPage(driver);
     productsPage = new ProductsPage(driver);
-  });
-
-  after(async function () {
-    if (driver) {
-      await driver.quit();
-    }
-  });
-
-  beforeEach(async function () {
+    
     await loginPage.navigate();
     await loginPage.login('standard_user', 'secret_sauce');
     // Ensure we are on inventory page
@@ -34,6 +26,9 @@ describe('Products Page Tests', function () {
   afterEach(async function () {
     if (this.currentTest.state === 'failed') {
       await captureScreenshot(driver, this.currentTest.fullTitle());
+    }
+    if (driver) {
+      await driver.quit();
     }
   });
 

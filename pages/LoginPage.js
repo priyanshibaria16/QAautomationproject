@@ -34,17 +34,12 @@ class LoginPage {
    * @param {string} password Password value to type
    */
   async login(username, password) {
+    const { clearAndType } = require('../utils/helper');
     const userField = await this.driver.findElement(this.usernameInput);
-    await userField.clear();
-    if (username !== '') {
-      await userField.sendKeys(username);
-    }
+    await clearAndType(userField, username);
 
     const passField = await this.driver.findElement(this.passwordInput);
-    await passField.clear();
-    if (password !== '') {
-      await passField.sendKeys(password);
-    }
+    await clearAndType(passField, password);
 
     await this.driver.findElement(this.loginButton).click();
   }

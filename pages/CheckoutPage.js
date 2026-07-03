@@ -32,23 +32,15 @@ class CheckoutPage {
    * @param {string} postalCode Client zip code
    */
   async enterCustomerDetails(firstName, lastName, postalCode) {
+    const { clearAndType } = require('../utils/helper');
     const fnField = await this.driver.findElement(this.firstNameInput);
-    await fnField.clear();
-    if (firstName !== '') {
-      await fnField.sendKeys(firstName);
-    }
+    await clearAndType(fnField, firstName);
 
     const lnField = await this.driver.findElement(this.lastNameInput);
-    await lnField.clear();
-    if (lastName !== '') {
-      await lnField.sendKeys(lastName);
-    }
+    await clearAndType(lnField, lastName);
 
     const pcField = await this.driver.findElement(this.postalCodeInput);
-    await pcField.clear();
-    if (postalCode !== '') {
-      await pcField.sendKeys(postalCode);
-    }
+    await clearAndType(pcField, postalCode);
   }
 
   /**

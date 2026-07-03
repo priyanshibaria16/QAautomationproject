@@ -7,24 +7,18 @@ describe('Login Tests', function () {
   let driver;
   let loginPage;
 
-  before(async function () {
+  beforeEach(async function () {
     driver = await createDriver();
     loginPage = new LoginPage(driver);
-  });
-
-  after(async function () {
-    if (driver) {
-      await driver.quit();
-    }
-  });
-
-  beforeEach(async function () {
     await loginPage.navigate();
   });
 
   afterEach(async function () {
     if (this.currentTest.state === 'failed') {
       await captureScreenshot(driver, this.currentTest.fullTitle());
+    }
+    if (driver) {
+      await driver.quit();
     }
   });
 

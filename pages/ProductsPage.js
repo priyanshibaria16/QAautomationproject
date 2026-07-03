@@ -110,6 +110,8 @@ class ProductsPage {
   async addToCart(productName) {
     const container = await this._getItemContainerByName(productName);
     const button = await container.findElement(By.css('.btn_inventory'));
+    // Scroll the button into the viewport before interacting (needed in headless mode)
+    await this.driver.executeScript('arguments[0].scrollIntoView({block: "center"});', button);
     const btnText = await button.getText();
     if (btnText.toUpperCase() === 'ADD TO CART') {
       await button.click();

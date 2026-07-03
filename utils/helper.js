@@ -34,7 +34,7 @@ async function captureScreenshot(driver, testName) {
   }
 }
 
-const { Key } = require('selenium-webdriver');
+const { Key, By } = require('selenium-webdriver');
 
 /**
  * Focuses an input element, selects all text, deletes it, and enters new text.
@@ -44,10 +44,11 @@ const { Key } = require('selenium-webdriver');
  * @param {string} text The text value to input
  */
 async function clearAndType(element, text) {
+  // Triple-click selects all text in an input safely without sending CTRL or BACK_SPACE,
+  // which can accidentally trigger browser navigation in headless Chrome.
   await element.click();
-  // Select all text using Control+A and backspace it
-  await element.sendKeys(Key.CONTROL, 'a');
-  await element.sendKeys(Key.BACKSPACE);
+  await element.sendKeys(Key.chord(Key.CONTROL, 'a'));
+  await element.sendKeys(Key.DELETE);
   if (text !== '') {
     await element.sendKeys(text);
   }

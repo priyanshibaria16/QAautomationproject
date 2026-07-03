@@ -56,25 +56,34 @@ describe('Checkout Tests', function () {
     // 1. Missing first name
     await checkoutPage.enterCustomerDetails('', 'Doe', '12345');
     await checkoutPage.clickContinue();
-    let errMsg = await checkoutPage.getErrorMessage();
-    expect(errMsg).to.include('Error: First Name is required');
+    const errMsg1 = await checkoutPage.getErrorMessage();
+    expect(errMsg1).to.include('Error: First Name is required');
+
+    // Navigate back to step one explicitly for the next check
+    await driver.navigate().back();
+    await driver.navigate().forward();
 
     // 2. Missing last name
     await checkoutPage.enterCustomerDetails('John', '', '12345');
     await checkoutPage.clickContinue();
-    errMsg = await checkoutPage.getErrorMessage();
-    expect(errMsg).to.include('Error: Last Name is required');
+    const errMsg2 = await checkoutPage.getErrorMessage();
+    expect(errMsg2).to.include('Error: Last Name is required');
+
+    // Navigate back to step one explicitly for the next check
+    await driver.navigate().back();
+    await driver.navigate().forward();
 
     // 3. Missing postal code
     await checkoutPage.enterCustomerDetails('John', 'Doe', '');
     await checkoutPage.clickContinue();
-    errMsg = await checkoutPage.getErrorMessage();
-    expect(errMsg).to.include('Error: Postal Code is required');
+    const errMsg3 = await checkoutPage.getErrorMessage();
+    expect(errMsg3).to.include('Error: Postal Code is required');
   });
 
   it('Checkout cancellation from step one', async function () {
     await checkoutPage.clickCancel();
     const currentUrl = await driver.getCurrentUrl();
+    // SauceDemo cancel from checkout step-one redirects back to the cart
     expect(currentUrl).to.include('/cart.html');
   });
 });
